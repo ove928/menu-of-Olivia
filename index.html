@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <style>
         body {
             text-align: center;
             font-family: Arial, sans-serif;
             padding: 20px;
+            font-size: 16px;
         }
         #popup {
             display: none;
@@ -18,19 +20,50 @@
             border: 2px solid #ccc;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
             z-index: 999;
+            width: 80%;
+            max-width: 400px;
+            font-size: 1.1rem;
         }
         button {
-            padding: 10px 20px;
+            padding: 15px 30px;
             margin: 10px;
             cursor: pointer;
+            min-width: 120px;
+            border-radius: 8px;
+            font-size: 1.2rem;
         }
         #result {
             margin-top: 20px;
-            font-size: 24px;
             color: #ff4444;
         }
         #history {
             margin-top: 30px;
+        }
+        #history li {
+            font-size: 1.2rem;
+            margin: 10px 0;
+            text-align: left;
+        }
+
+        @media screen and (max-width: 768px) {
+            body {
+                font-size: 20px;
+                padding: 10px;
+            }
+            h1 {
+                font-size: 1.8rem;
+                margin: 15px 0;
+            }
+            #result {
+                font-size: 1.5rem;
+                line-height: 2rem;
+            }
+        }
+
+        @media screen and (min-width: 769px) {
+            h1 {
+                font-size: 2.5rem;
+            }
         }
     </style>
 </head>
