@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        #popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            border: 2px solid #ccc;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            z-index: 999;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            cursor: pointer;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 24px;
+            color: #ff4444;
+        }
+        #history {
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Menu for Olivia</h1>
+    <button onclick="startLottery()" id="startBtn">开始抽奖</button>
+    <div id="result"></div>
+    <div id="popup">
+        <p>对这个结果满意吗？</p >
+        <button onclick="acceptResult()">确定</button>
+        <button onclick="rejectResult()">本宫今天不想吃</button>
+    </div>
+    <div id="history"></div>
+
+    <!-- 在此修改抽奖名单（不可见） -->
+    <div id="nameList" style="display:none;">
+        麻辣烫,黄焖鸡,鸭血粉丝,酸菜鱼,椰子鸡,寿司,披萨,肯德基,麦当劳,兰州拉面,牛肉面,三及第汤,铁板烧,章鱼小丸子,烤肉,牛蛙,炒粉,猪杂粉,牛排,三文鱼
+    </div>
+
+    <script>
+        let lotteryCount = 0;
+        let results = [];
+        let names = [];
+
+        function initNames() {
+            const nameList = document.getElementById('nameList').textContent.trim();
+            names = nameList.split(',').map(name => name.trim());
+        }
+
+        function startLottery() {
+            initNames();
+            lotteryCount = 0;
+            results = [];
+            document.getElementById('startBtn').disabled = true;
+            drawLottery();
+        }
+
+        function drawLottery() {
+            if (lotteryCount >= 3) return;
+            
+            const randomIndex = Math.floor(Math.random() * names.length);
+            const winner = names[randomIndex];
+            
+            results.push(winner);
+            lotteryCount++;
+            
+            document.getElementById('result').textContent = `第 ${lotteryCount} 次抽奖结果：${winner}`;
+            
+            if (lotteryCount < 3) {
+                document.getElementById('popup').style.display = 'block';
+            } else {
+                showFinalResults();
+            }
+        }
+
+        function acceptResult() {
+            document.getElementById('popup').style.display = 'none';
+            showFinalResults();
+        }
+
+        function rejectResult() {
+            document.getElementById('popup').style.display = 'none';
+            if (lotteryCount >= 3) {
+                showFinalResults();
+            } else {
+                drawLottery();
+            }
+        }
+
+        function showFinalResults() {
+            document.getElementById('startBtn').disabled = false;
+            let html = '<h3>最终结果：</h3>';
+            if (lotteryCount === 3) {
+                html += '<p>娘娘，今天大厨休假，只能三选一了哦</p >';
+            }
+            html += '<ul>';
+            results.forEach((result, index) => {
+                html += `<li>第 ${index + 1} 次：${result}</li>`;
+            });
+            html += '</ul>';
+            document.getElementById('history').innerHTML = html;
+            document.getElementById('result').textContent = '';
+            lotteryCount = 0;
+            results = [];
+        }
+    </script>
+</body>
+</html>
